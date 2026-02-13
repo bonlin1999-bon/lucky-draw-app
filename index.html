@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豪華抽獎系統 - Premium Lucky Draw</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style-v2.css">
+
+    <!-- Firebase SDK (CDN 版本，不需要 npm) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <!-- 角色選擇畫面 -->
+    <div id="role-select" class="role-overlay">
+        <div class="role-content glass-panel">
+            <h1 style="font-size: 2rem; margin-bottom: 1rem;">🎰 PREMIUM DRAW</h1>
+            <p style="color: var(--text-dim); margin-bottom: 2rem;">選擇你的角色</p>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                <button id="role-host-btn" class="role-btn host-btn">
+                    <span style="font-size: 2.5rem;">👑</span>
+                    <strong>主持人</strong>
+                    <small>控制抽獎流程</small>
+                </button>
+                <button id="role-viewer-btn" class="role-btn viewer-btn">
+                    <span style="font-size: 2.5rem;">👀</span>
+                    <strong>觀眾</strong>
+                    <small>觀看抽獎結果</small>
+                </button>
+            </div>
+            <!-- 連線狀態 -->
+            <div id="connection-status" style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim);">
+                🔗 正在連線到伺服器...
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="app-container" style="display: none;">
+        <header>
+            <h1>PREMIUM DRAW</h1>
+            <p class="subtitle">體驗極致流暢的抽獎儀式</p>
+            <!-- 連線人數顯示 -->
+            <div id="online-count" style="color: var(--gold); font-size: 0.9rem; margin-top: 0.3rem;">
+                👥 連線中...
+            </div>
+        </header>
+
+        <main class="main-layout">
+            <!-- 主持人才看得到的設定面板 -->
+            <aside class="config-panel glass-panel" id="config-panel">
+                <div class="config-section">
+                    <h2>⚙️ 設定 <span style="font-size: 0.7rem; color: var(--gold);">👑 主持人</span></h2>
+                    <div class="input-group">
+                        <label for="names-input">參與者名單 (每行一個名字)</label>
+                        <textarea id="names-input" rows="10" placeholder="請輸入參與者名單..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="prize-name">目前獎項</label>
+                        <input type="text" id="prize-name" value="一等獎" placeholder="例如：特獎">
+                    </div>
+                    <div class="input-group">
+                        <label for="draw-count">抽獎人數</label>
+                        <input type="number" id="draw-count" value="1" min="1">
+                    </div>
+                    <button id="start-btn" class="primary-btn">開始抽獎</button>
+                    <button id="reset-btn" class="primary-btn"
+                        style="background: rgba(255,255,255,0.1); margin-top: 0.5rem;">重設名單</button>
+                    <button id="import-1-80-btn" class="primary-btn"
+                        style="background: linear-gradient(135deg, #00c6ff, #0072ff); margin-top: 0.5rem;">匯入 1-80
+                        號</button>
+                    <div class="input-group"
+                        style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <label for="animation-toggle" style="margin-bottom: 0;">開啟動畫特效</label>
+                        <label class="switch">
+                            <input type="checkbox" id="animation-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="draw-panel">
+                <div class="display-area glass-panel">
+                    <div class="slot-machine-container">
+                        <div class="slot-machine">
+                            <div id="reel-container" class="reel-container">
+                                <div class="reel-item current">READY?</div>
+                            </div>
+                            <div class="reel-overlay"></div>
+                        </div>
+
+                        <!-- 主持人才看得到的 GO 按鈕 -->
+                        <div class="control-container" id="control-container">
+                            <button id="draw-action-btn" class="circle-btn">GO</button>
+                        </div>
+                    </div>
+
+                    <div class="winners-section">
+                        <h3>🏆 中獎名單</h3>
+                        <div id="winners-list" class="winners-list">
+                            <!-- 中獎者會動態出現在這裡 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Batch Mode Overlay -->
+    <div id="batch-overlay" class="hidden">
+        <div class="batch-content">
+            <h2>🏆 中獎名單</h2>
+            <div id="batch-grid" class="batch-grid">
+                <!-- Winners pop up here -->
+            </div>
+            <button id="batch-close-btn" class="primary-btn hidden">完成</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .main-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* Change order: Draw panel first, Config second */
+    .draw-panel {
+        order: 1;
+        width: 100%;
+    }
+
+    .config-panel {
+        order: 2;
+        width: 100%;
+    }
+
+    .slot-machine {
+        height: 60vh;
+        /* Taller on mobile for better visibility */
+        max-height: 500px;
+        min-height: 350px;
+    }
+
+    .reel-item {
+        font-size: 8rem;
+        /* Larger font */
+    }
+
+    /* Button Placement on Mobile */
+    .slot-machine-container {
+        flex-direction: column;
+        /* Stack: Machine on top, Button below */
+        gap: 1.5rem;
+    }
+
+    .control-container {
+        margin-left: 0;
+        margin-top: 1rem;
+        transform: scale(1.2);
+        /* Make button even bigger on mobile if needed */
+    }
+
+    /* Ensure button doesn't get squashed */
+    .circle-btn {
+        flex-shrink: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+        /* Smaller title */
+    }
+}

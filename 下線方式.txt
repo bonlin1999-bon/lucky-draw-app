@@ -1,0 +1,20 @@
+要讓抽獎工具完全下線，需要關閉兩個東西：
+
+1️⃣ 關閉網站（GitHub Pages）
+到 **https://github.com/bonlin1999-bon/lucky-draw-app**
+點 Settings → 左側點 Pages
+Branch 改選 None → 點 Save
+✅ 網站立即下線，但程式碼保留，隨時可以重新打開。
+
+2️⃣ 關閉資料庫（Firebase）
+到 **https://console.firebase.google.com/**
+點 lucky-draw 專案
+點左下角 ⚙️ 專案設定 → 拉到最下方 「刪除專案」
+⚠️ 這會永久刪除資料庫。如果只是暫時不用，可以跳過這步，Firebase 免費方案不使用不會收費。
+
+總結
+動作	效果	可恢復？
+GitHub Pages 關閉	網站下線，程式碼還在	✅ 隨時重開
+Firebase 不動	資料庫保留但沒人存取	✅ 不會收費
+刪除 Firebase 專案	資料庫永久刪除	❌ 不可恢復
+建議做法：只關閉 GitHub Pages 就夠了！Firebase 不用不會收費，保留著下次用更方便。
